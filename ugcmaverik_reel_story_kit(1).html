@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@theugcmaverik — Reel & Story Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple: #4B0082;
+  --purple-dark: #1a0040;
+  --purple-mid: #2D1B69;
+  --gold: #E8A020;
+  --neon: #39FF14;
+  --cream: #FAF7F0;
+  --white: #ffffff;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+}
+body {
+  background: #080018;
+  font-family: 'Lato', sans-serif;
+  color: var(--white);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: linear-gradient(135deg, #0f0030 0%, #2D1B69 100%);
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid rgba(232,160,32,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ph-left h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.ph-left h1 span { color: var(--gold); }
+.ph-left p { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+.ph-badge {
+  background: rgba(57,255,20,0.12);
+  border: 1px solid rgba(57,255,20,0.3);
+  color: var(--neon);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+}
+
+/* ── TAB NAV ── */
+.tab-nav {
+  display: flex;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 20px;
+}
+.tab-nav button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.tab-nav button.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.tab-nav button:hover:not(.active) { color: rgba(255,255,255,0.7); }
+.tab-icon { font-size: 16px; }
+
+/* ── PANELS ── */
+.panel { display: none; padding: 28px 24px 40px; max-width: 900px; margin: 0 auto; }
+.panel.active { display: block; }
+
+/* ── SECTION TITLES ── */
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(232,160,32,0.2);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.card.gold-left { border-left: 3px solid var(--gold); border-radius: 0 14px 14px 0; }
+.card.neon-left { border-left: 3px solid var(--neon); border-radius: 0 14px 14px 0; }
+.card.purple-left { border-left: 3px solid #9B5DE5; border-radius: 0 14px 14px 0; }
+
+/* ── REEL PHONE MOCKUP ── */
+.reel-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.phone-wrap {
+  position: sticky;
+  top: 20px;
+}
+.phone {
+  background: #0a0a0a;
+  border-radius: 36px;
+  border: 2px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+}
+.phone-notch {
+  background: #0a0a0a;
+  width: 90px; height: 24px;
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.phone-screen {
+  background: linear-gradient(170deg, #1a0040 0%, #2D1B69 40%, #0a001a 100%);
+  padding: 0;
+  min-height: 480px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* reel gradient overlays */
+.phone-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.8) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.reel-glow {
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(57,255,20,0.15) 0%, transparent 70%);
+  top: -40px; right: -40px;
+  pointer-events: none;
+}
+.reel-glow2 {
+  position: absolute;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%);
+  bottom: 60px; left: -30px;
+  pointer-events: none;
+}
+/* Progress bars */
+.reel-progress {
+  position: absolute;
+  top: 8px; left: 10px; right: 10px;
+  display: flex; gap: 3px;
+  z-index: 5;
+}
+.rp-bar {
+  flex: 1; height: 2px; border-radius: 1px;
+  background: rgba(255,255,255,0.25);
+  overflow: hidden;
+}
+.rp-fill {
+  height: 100%;
+  background: #fff;
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+/* Top user row */
+.reel-user-row {
+  position: absolute;
+  top: 18px; left: 10px; right: 10px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+.reel-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gold);
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
+  font-size: 9px; color: #0a001a;
+  flex-shrink: 0;
+}
+.reel-username {
+  font-size: 11px; font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff; margin-left: 7px; flex: 1;
+}
+.reel-follow-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff; font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 12px;
+  font-family: 'Montserrat', sans-serif;
+}
+/* Side actions */
+.reel-side-actions {
+  position: absolute;
+  right: 8px; bottom: 70px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 18px;
+  z-index: 5;
+}
+.reel-action { text-align: center; }
+.reel-action-icon {
+  font-size: 22px; display: block;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+.reel-action-label { font-size: 9px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+/* Main content area */
+.reel-content-area {
+  position: absolute;
+  bottom: 55px; left: 10px; right: 40px;
+  z-index: 5;
+}
+.reel-hook-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.reel-hook-text span { color: var(--gold); }
+.reel-desc {
+  font-size: 10px; color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.reel-desc strong { color: #fff; }
+/* CTA overlay */
+.reel-cta-overlay {
+  background: var(--gold);
+  color: #0a001a;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 10px;
+  padding: 5px 12px;
+  border-radius: 14px;
+  display: inline-block;
+  margin-top: 6px;
+}
+/* Bottom bar */
+.reel-bottom-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 10px 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 5;
+  background: rgba(0,0,0,0.3);
+}
+.reel-audio {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9px; color: rgba(255,255,255,0.6);
+}
+.audio-icon { font-size: 12px; }
+
+/* ── SCRIPT PANEL (right side) ── */
+.script-panel { flex: 1; }
+
+.timing-block {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 0;
+  margin-bottom: 10px;
+}
+.timing-block:last-child { margin-bottom: 0; }
+.tb-stamp {
+  background: rgba(75,0,130,0.3);
+  border: 1px solid rgba(75,0,130,0.5);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  line-height: 1.3;
+}
+.tb-stamp strong { color: var(--gold); font-size: 12px; display: block; }
+.tb-body {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+}
+.tb-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.tb-label.hook { color: var(--neon); }
+.tb-label.bridge { color: var(--gold); }
+.tb-label.value { color: #9B5DE5; }
+.tb-label.proof { color: #4FC3F7; }
+.tb-label.cta { color: var(--gold); }
+.tb-script {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
+  font-style: italic;
+}
+.tb-note {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  margin-top: 5px; font-style: normal;
+}
+
+/* ── CAPTION BLOCK ── */
+.caption-card {
+  background: rgba(232,160,32,0.06);
+  border: 1px solid rgba(232,160,32,0.2);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+.caption-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.caption-text .keyword { color: var(--neon); font-weight: 700; }
+.caption-text .handle { color: var(--gold); font-weight: 700; }
+
+/* ── HASHTAG BLOCK ── */
+.hashtag-grid {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-top: 10px;
+}
+.hashtag {
+  background: rgba(75,0,130,0.25);
+  border: 1px solid rgba(75,0,130,0.4);
+  color: #c0a0ff;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+/* ── STORY PANEL ── */
+.story-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.story-phone {
+  background: #0a0a0a;
+  border-radius: 36px;
+  border: 2px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  position: sticky;
+  top: 20px;
+}
+.story-screen {
+  background: linear-gradient(160deg, #2D1B69 0%, #1a0040 50%, #000510 100%);
+  min-height: 430px;
+  padding: 10px 12px 14px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.story-screen::after {
+  content: '';
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(57,255,20,0.1) 0%, transparent 70%);
+  top: -50px; right: -50px;
+  pointer-events: none;
+}
+/* Story progress */
+.story-progress {
+  display: flex; gap: 3px; margin-bottom: 10px;
+}
+.sp-bar {
+  flex: 1; height: 2.5px; border-radius: 2px;
+  background: rgba(255,255,255,0.25);
+}
+.sp-bar.done { background: rgba(255,255,255,0.9); }
+.sp-bar.active {
+  background: linear-gradient(90deg, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.25) 60%);
+}
+/* Story header */
+.story-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px; position: relative; z-index: 2;
+}
+.story-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
+  font-size: 10px; color: #0a001a;
+}
+.story-name-col { flex: 1; }
+.story-name { font-size: 12px; font-weight: 700; color: #fff; font-family: 'Montserrat', sans-serif; }
+.story-time { font-size: 10px; color: rgba(255,255,255,0.45); }
+.story-close { font-size: 18px; color: rgba(255,255,255,0.5); }
+/* Story body */
+.story-body { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2; }
+.story-headline {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.story-headline span { color: var(--gold); }
+.story-sub {
+  font-size: 11px; color: rgba(255,255,255,0.7);
+  line-height: 1.5; margin-bottom: 12px;
+}
+/* Stickers */
+.story-poll-sticker {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.poll-label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: rgba(255,255,255,0.5);
+  margin-bottom: 6px; font-family: 'Montserrat', sans-serif;
+}
+.poll-question {
+  font-size: 12px; font-weight: 700; color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 8px; line-height: 1.3;
+}
+.poll-options { display: flex; gap: 6px; }
+.poll-opt {
+  flex: 1; padding: 7px 6px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; text-align: center;
+  font-family: 'Montserrat', sans-serif; cursor: pointer;
+  transition: all 0.2s;
+}
+.poll-opt.yes { background: rgba(57,255,20,0.2); color: var(--neon); border: 1px solid rgba(57,255,20,0.4); }
+.poll-opt.no  { background: rgba(232,160,32,0.15); color: var(--gold); border: 1px solid rgba(232,160,32,0.3); }
+.poll-opt:hover { transform: scale(1.04); }
+
+.story-link-sticker {
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px; padding: 8px 12px;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.link-icon { font-size: 14px; }
+.link-text { font-size: 10px; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; }
+.link-sub { font-size: 9px; color: rgba(255,255,255,0.5); }
+
+.story-question-sticker {
+  background: rgba(57,255,20,0.1);
+  border: 1px solid rgba(57,255,20,0.25);
+  border-radius: 12px; padding: 9px 12px; margin-bottom: 8px;
+}
+.qs-label { font-size: 9px; font-weight: 700; color: var(--neon); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; font-family: 'Montserrat', sans-serif; }
+.qs-text { font-size: 12px; color: rgba(255,255,255,0.8); font-family: 'Montserrat', sans-serif; font-weight: 700; line-height: 1.3; }
+
+.story-reply-bar {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px; padding: 7px 12px;
+}
+.reply-text { font-size: 10px; color: rgba(255,255,255,0.4); flex: 1; }
+.reply-send { font-size: 16px; }
+
+/* ── STORY NOTES SIDE ── */
+.story-steps { margin-bottom: 14px; }
+.step-row {
+  display: flex; gap: 14px; align-items: flex-start;
+  margin-bottom: 14px;
+}
+.step-bubble {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--purple);
+  border: 2px solid rgba(232,160,32,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
+  font-size: 13px; color: var(--gold);
+  flex-shrink: 0;
+}
+.step-content { flex: 1; }
+.step-title {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 14px; color: #fff; margin-bottom: 4px;
+}
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.step-tip {
+  background: rgba(57,255,20,0.07);
+  border: 1px solid rgba(57,255,20,0.15);
+  border-radius: 8px; padding: 7px 10px; margin-top: 7px;
+  font-size: 12px; color: var(--neon);
+}
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  font-size: 13px; color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.check-bold { font-weight: 700; color: #fff; }
+
+/* ── POST TIME BADGE ── */
+.post-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(232,160,32,0.12);
+  border: 1px solid rgba(232,160,32,0.3);
+  color: var(--gold);
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 11px; padding: 5px 12px; border-radius: 20px;
+  margin-bottom: 18px;
+}
+
+/* ── COPY BUTTON ── */
+.copy-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.6);
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 11px; padding: 5px 12px; border-radius: 8px;
+  cursor: pointer; transition: all 0.2s;
+  float: right; margin-top: -2px;
+}
+.copy-btn:hover { background: var(--gold); color: #0a001a; border-color: var(--gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .reel-layout, .story-layout {
+    grid-template-columns: 1fr;
+  }
+  .phone-wrap, .story-phone { position: static; max-width: 260px; margin: 0 auto; }
+  .panel { padding: 20px 16px 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="ph-left">
+    <h1>@theugcmaverik — <span>Reel & Story Kit</span></h1>
+    <p>"You Don't Need a Face to Go Viral" · Post today</p>
+  </div>
+  <div class="ph-badge">✦ Faceless UGC Series</div>
+</div>
+
+<div class="tab-nav">
+  <button class="active" onclick="switchTab('reel', this)"><span class="tab-icon">▶</span> REEL · 1:00 PM</button>
+  <button onclick="switchTab('story', this)"><span class="tab-icon">◻</span> STORY · 7:00 PM</button>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  REEL PANEL                            -->
+<!-- ═══════════════════════════════════════ -->
+<div id="panel-reel" class="panel active">
+
+  <div class="post-badge">🎬 Post at 1:00 PM · Promotional Reel · 45 seconds</div>
+
+  <div class="reel-layout">
+
+    <!-- Phone mockup -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="reel-glow"></div>
+          <div class="reel-glow2"></div>
+          <div class="reel-progress">
+            <div class="rp-bar"><div class="rp-fill" style="width:100%"></div></div>
+            <div class="rp-bar"><div class="rp-fill" id="rp2" style="width:0%"></div></div>
+            <div class="rp-bar"><div class="rp-fill" style="width:0%"></div></div>
+          </div>
+          <div class="reel-user-row">
+            <div style="display:flex;align-items:center;gap:0">
+              <div class="reel-avatar">UGC</div>
+              <span class="reel-username">theugcmaverik</span>
+            </div>
+            <button class="reel-follow-btn">Follow</button>
+          </div>
+          <div class="reel-side-actions">
+            <div class="reel-action">
+              <span class="reel-action-icon">❤️</span>
+              <div class="reel-action-label">14.2K</div>
+            </div>
+            <div class="reel-action">
+              <span class="reel-action-icon">💬</span>
+              <div class="reel-action-label">387</div>
+            </div>
+            <div class="reel-action">
+              <span class="reel-action-icon">↗️</span>
+              <div class="reel-action-label">Share</div>
+            </div>
+            <div class="reel-action">
+              <span class="reel-action-icon">🔖</span>
+              <div class="reel-action-label">Save</div>
+            </div>
+          </div>
+          <div class="reel-content-area">
+            <div class="reel-hook-text">Brands are paying <span>$50–$500</span> for AI videos. No face required.</div>
+            <div class="reel-desc">I built a faceless content business in <strong>2–3 hrs/day</strong>. Here's the full stack... 🔥</div>
+            <div class="reel-cta-overlay">Comment STARTER for the free kit</div>
+          </div>
+          <div class="reel-bottom-bar">
+            <div class="reel-audio">
+              <span class="audio-icon">🎵</span>
+              <span>Original audio — theugcmaverik</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script + details -->
+    <div class="script-panel">
+
+      <div class="section-title">Voiceover Script</div>
+
+      <div class="timing-block">
+        <div class="tb-stamp"><strong>0:00</strong>3 sec</div>
+        <div class="tb-body">
+          <div class="tb-label hook">🟢 HOOK</div>
+          <div class="tb-script">"Brands are paying fifty to five hundred dollars for AI-generated videos — and you don't need to show your face to get paid."</div>
+          <div class="tb-note">📌 Show text overlay: "$50–$500 Per Video" · zoom in, bold font</div>
+        </div>
+      </div>
+
+      <div class="timing-block">
+        <div class="tb-stamp"><strong>0:03</strong>8 sec</div>
+        <div class="tb-body">
+          <div class="tb-label bridge">🟡 BRIDGE</div>
+          <div class="tb-script">"This is called AI UGC — user-generated content made entirely with artificial intelligence. Your avatar shows up so you don't have to."</div>
+          <div class="tb-note">📌 Show your AI avatar on screen, subtle zoom out</div>
+        </div>
+      </div>
+
+      <div class="timing-block">
+        <div class="tb-stamp"><strong>0:11</strong>18 sec</div>
+        <div class="tb-body">
+          <div class="tb-label value">🟣 VALUE</div>
+          <div class="tb-script">"Here's the full three-tool stack: OpenArt AI generates your avatar — consistent, branded, yours. ElevenLabs clones a voice that sounds professional. CapCut edits and captions the whole thing in under thirty minutes."</div>
+          <div class="tb-note">📌 B-roll: screen record each tool · text overlay each name</div>
+        </div>
+      </div>
+
+      <div class="timing-block">
+        <div class="tb-stamp"><strong>0:29</strong>10 sec</div>
+        <div class="tb-body">
+          <div class="tb-label proof">🔵 PROOF</div>
+          <div class="tb-script">"I run my whole content business in two to three hours a day. Affiliate income, brand deals, digital products — it all stacks. And it runs while I sleep."</div>
+          <div class="tb-note">📌 Show dashboard or income screenshot (blurred is fine)</div>
+        </div>
+      </div>
+
+      <div class="timing-block">
+        <div class="tb-stamp"><strong>0:39</strong>6 sec</div>
+        <div class="tb-body">
+          <div class="tb-label cta">🟡 CTA</div>
+          <div class="tb-script">"Drop STARTER in the comments and I'll send you my free AI UGC Starter Kit. Everything you need to launch — no face, no studio."</div>
+          <div class="tb-note">📌 Text overlay: "COMMENT 'STARTER' 👇" · neon green · pulse animation</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <div class="section-title">CapCut Editing Notes</div>
+        <div class="card">
+          <ul class="checklist">
+            <li><span class="check-icon">🎞️</span><span><span class="check-bold">Aspect ratio:</span> 9:16 vertical for Reels. Export at 1080×1920.</span></li>
+            <li><span class="check-icon">🔤</span><span><span class="check-bold">Captions:</span> Auto-caption ON · font Montserrat or Impact · white + black outline · center bottom.</span></li>
+            <li><span class="check-icon">🌈</span><span><span class="check-bold">Text overlays:</span> Use deep purple background + gold or neon green text for key callouts.</span></li>
+            <li><span class="check-icon">🎵</span><span><span class="check-bold">Audio:</span> ElevenLabs voiceover as primary. Add a lo-fi or trending background track at 20% volume.</span></li>
+            <li><span class="check-icon">✂️</span><span><span class="check-bold">Cuts:</span> Cut every 2–3 seconds to maintain pace. Hook must land before the 3-second mark.</span></li>
+            <li><span class="check-icon">🔚</span><span><span class="check-bold">End card:</span> 2-second still with your handle + "Comment STARTER" text on a dark background.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 8px;">
+        <div class="section-title">Caption <button class="copy-btn" onclick="copyCaption()">Copy</button></div>
+        <div class="caption-card">
+          <div class="caption-text" id="reel-caption">Faceless UGC is one of the fastest-growing creator lanes right now — and AI makes it possible for anyone. Here's the full breakdown:
+
+✅ OpenArt AI → build your avatar
+✅ ElevenLabs → create your AI voice  
+✅ CapCut → edit in 30 min flat
+✅ Mavely or Amazon → stack affiliate income
+✅ Post → Repurpose → Repeat
+
+No camera. No studio. No excuses.
+
+Comment <span class="keyword">STARTER</span> below and I'll send you the free AI UGC Starter Kit. 👇
+
+Follow <span class="handle">@theugcmaverik</span> for daily AI creator strategies.</div>
+        </div>
+
+        <div class="section-title" style="margin-top:16px;">Hashtags</div>
+        <div class="hashtag-grid">
+          <span class="hashtag">#AIUGC</span>
+          <span class="hashtag">#FacelessContent</span>
+          <span class="hashtag">#UGCCreator</span>
+          <span class="hashtag">#AICreator</span>
+          <span class="hashtag">#MakeMoneyOnline</span>
+          <span class="hashtag">#AffiliateMarketing</span>
+          <span class="hashtag">#ContentCreator</span>
+          <span class="hashtag">#ElevenLabs</span>
+          <span class="hashtag">#CapCutEdit</span>
+          <span class="hashtag">#SideHustle2025</span>
+          <span class="hashtag">#InstagramReels</span>
+          <span class="hashtag">#DigitalIncome</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  STORY PANEL                           -->
+<!-- ═══════════════════════════════════════ -->
+<div id="panel-story" class="panel">
+
+  <div class="post-badge">📱 Post at 7:00 PM · Community Building Story · 3 Frames</div>
+
+  <div class="story-layout">
+
+    <!-- Phone mockup -->
+    <div>
+      <div class="story-phone">
+        <div class="phone-notch"></div>
+        <div class="story-screen">
+          <div class="story-progress">
+            <div class="sp-bar done"></div>
+            <div class="sp-bar active"></div>
+            <div class="sp-bar"></div>
+          </div>
+          <div class="story-header">
+            <div class="story-avatar">UGC</div>
+            <div class="story-name-col">
+              <div class="story-name">theugcmaverik</div>
+              <div class="story-time">Just now</div>
+            </div>
+            <div class="story-close">✕</div>
+          </div>
+          <div class="story-body">
+            <div class="story-headline">Building a <span>faceless</span> brand in 2025?</div>
+            <div class="story-sub">Drop your vote — I want to know where you're at right now 👇</div>
+            <div class="story-poll-sticker">
+              <div class="poll-label">📊 Poll</div>
+              <div class="poll-question">Are you already creating faceless content?</div>
+              <div class="poll-options">
+                <div class="poll-opt yes">✅ Yes! Already doing it</div>
+                <div class="poll-opt no">👀 Not yet, still learning</div>
+              </div>
+            </div>
+            <div class="story-question-sticker">
+              <div class="qs-label">❓ Question</div>
+              <div class="qs-text">What's your biggest block with AI UGC right now?</div>
+            </div>
+            <div class="story-link-sticker">
+              <span class="link-icon">🔗</span>
+              <div>
+                <div class="link-text">Grab the free AI UGC Starter Kit</div>
+                <div class="link-sub">beacons.ai/theugcmaverik</div>
+              </div>
+            </div>
+            <div class="story-reply-bar">
+              <span class="reply-text">Send message</span>
+              <span class="reply-send">➤</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story build guide -->
+    <div>
+
+      <div class="section-title">3 Story Frames — Build Order</div>
+
+      <div class="story-steps">
+
+        <div class="step-row">
+          <div class="step-bubble">1</div>
+          <div class="step-content">
+            <div class="step-title">Frame 1 — Hook (Post first)</div>
+            <div class="step-desc">Bold text on dark purple/black background. White + gold text only. Keep it punchy — one thought per frame.</div>
+            <div class="step-tip">✦ Text: <em>"Nobody told you faceless content could pay this well. 👀"</em><br>Add a neon green text accent on the word "faceless".</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-bubble">2</div>
+          <div class="step-content">
+            <div class="step-title">Frame 2 — Poll + Question (This mockup)</div>
+            <div class="step-desc">Add IG's built-in Poll sticker + Question sticker. This is your engagement engine — replies trigger the algorithm.</div>
+            <div class="step-tip">✦ Poll: "Already doing it" vs "Still figuring it out"<br>✦ Question: "What's your biggest block with AI UGC?"<br>✦ Add your Beacons.ai link sticker below both.</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-bubble">3</div>
+          <div class="step-content">
+            <div class="step-title">Frame 3 — CTA Slide (Post last)</div>
+            <div class="step-desc">End strong. DM trigger + swipe nudge. Reuse a still from your Reel or a quote card for the visual.</div>
+            <div class="step-tip">✦ Text: <em>"DM me 'FACELESS' and I'll share my full free starter kit 🎁"</em><br>✦ Add countdown sticker: "Kit available for 24 hrs"</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-title">Story Design Checklist</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span class="check-icon">🎨</span><span><span class="check-bold">Background:</span> Deep purple (#1a0040) or solid black. Use IG's draw tool to fill if needed.</span></li>
+          <li><span class="check-icon">🔤</span><span><span class="check-bold">Font:</span> IG's Bold font in white. Highlight key words with gold or neon green color fill.</span></li>
+          <li><span class="check-icon">📊</span><span><span class="check-bold">Poll sticker:</span> "Already doing it" / "Still figuring it out" — tap to customize both options.</span></li>
+          <li><span class="check-icon">❓</span><span><span class="check-bold">Question sticker:</span> "What's your biggest block with AI UGC?" — replies go straight to your DMs.</span></li>
+          <li><span class="check-icon">🔗</span><span><span class="check-bold">Link sticker:</span> Your Beacons.ai URL · label it "Grab the free kit here"</span></li>
+          <li><span class="check-icon">⏰</span><span><span class="check-bold">Countdown sticker:</span> Optional — adds urgency. Set to 24 hrs from post time.</span></li>
+          <li><span class="check-icon">📍</span><span><span class="check-bold">Location sticker:</span> Add "Houston, TX" or your niche tag — boosts local discovery.</span></li>
+          <li><span class="check-icon">🔁</span><span><span class="check-bold">Reshare:</span> After posting, reshare your 9:00 AM carousel to Story using the paper-plane icon.</span></li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <div class="section-title">DM Reply Scripts</div>
+        <div class="card gold-left">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">When someone votes on the poll</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.6;font-style:italic;">"Hey [name]! Thanks for voting 👋 If you're ready to start or want to level up, grab my free AI UGC Starter Kit here → [Beacons link]. It covers the full tool stack + my posting system."</div>
+        </div>
+        <div class="card neon-left" style="margin-top:10px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--neon);margin-bottom:8px;">When someone DMs "FACELESS"</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.6;font-style:italic;">"You're in! 🎉 Here's your free AI UGC Starter Kit: [Gumroad/Beacons link]. Let me know what questions come up — I read every reply."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(name, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function copyCaption() {
+    const el = document.getElementById('reel-caption');
+    const text = el.innerText || el.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied ✓';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+</script>
+</body>
+</html>
